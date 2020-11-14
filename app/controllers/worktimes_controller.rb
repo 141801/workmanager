@@ -25,7 +25,7 @@ class WorktimesController < ApplicationController
   # POST /worktimes.json
   def create
     @worktime = Worktime.new(worktime_params)
-
+    @worktime.user=User.find(2)
     respond_to do |format|
       if @worktime.save
         format.html { redirect_to @worktime, notice: 'Worktime was successfully created.' }
