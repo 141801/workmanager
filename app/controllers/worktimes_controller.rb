@@ -1,5 +1,6 @@
 class WorktimesController < ApplicationController
   before_action :set_worktime, only: [:show, :edit, :update, :destroy]
+  before_action :require_same_user, only: [:show, :edit, :update, :destroy]
 
   # GET /worktimes
   # GET /worktimes.json
@@ -64,11 +65,25 @@ class WorktimesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_worktime
-      @worktime = Worktime.find(params[:id])
+      begin
+         @worktime = Worktime.find(params[:id])
+      rescue
+         flash[:danger] = "dangerous operator detected"
+         redirect_to root_path
+      end
     end
 
     # Only allow a list of trusted parameters through.
     def worktime_params
       params.require(:worktime).permit(:ontime, :offtime)
     end
+
+    def require_same_user
+      if current_user != @worktime.user and !current_user.admin? 
+        flash[:danger] = "You can only edit or delete your own articles"
+        redirect_to root_path
+      end
+    end
+
+
 end
