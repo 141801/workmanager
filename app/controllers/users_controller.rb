@@ -39,13 +39,18 @@ class UsersController < ApplicationController
   def show
     @user=User.find(params[:id])
     @worktimes = @user.worktimes
+
+    #require 'date'
+
+    @bydate = @worktimes.select("date(ontime) , SUM(offtime-ontime)  ").where(ontime: Time.current.beginning_of_month..Time.current.end_of_month).group("date(ontime)")
+  
   end
-
-
+  
   def destroy
     @user = User.find(params[:id])
+    @user.worktimes.destroy
     @user.destroy
-    flash[:danger] = "User and all articles created by user have been deleted"
+    flash[:danger] = "User and all worktimes created by user have been deleted"
     redirect_to users_path
   end
 
@@ -79,4 +84,9 @@ class UsersController < ApplicationController
       redirect_to root_path
     end
   end
+
+  class Datetimes
+     attr_accessor :date, :totaltime
+  end
 end
+
