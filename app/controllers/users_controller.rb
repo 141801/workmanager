@@ -61,7 +61,7 @@ class UsersController < ApplicationController
        @user = User.find(params[:id])
     rescue 
        flash[:danger] = " danger  operation detected"
-       redirect_to root_path
+       redirect_to root_path 
     end
   end
 

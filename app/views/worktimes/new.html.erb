@@ -1,5 +1,4 @@
 <h1>New Worktime</h1>
-
-<%= render 'form', worktime: @worktime %>
-
+<%= button_to 'online', {:action => "online"}, {:method => :post, :data => {:confirm => "reload?"}}  %>
+<%= button_to 'offline', {:action => "offline"}, {:method => :post, :data => {:confirm => "reload?"}} %>
 <%= link_to 'Back', worktimes_path %>
