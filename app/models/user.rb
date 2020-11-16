@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_many :worktimes
+  has_many :worktimes , dependent: :destroy
   validates :username, presence: true, 
             uniqueness: { case_sensitive: false }, 
             length: { minimum: 3, maximum: 25 }
